@@ -1,5 +1,6 @@
 import speech_recognition
 import pyttsx3
+from bardAi import reply
 
 class Audio:
     def __init__(self):
@@ -21,11 +22,17 @@ class Audio:
                     text = self.recognizer.recognize_google(self.audio)
                     text = text.lower()
                     print(f'Recognized... {text}')
+
+                    try:
+                        responce = reply(text)
+                    except:
+                        self.playaudio('please check update your API')
+                    
                     if text == 'quit' or text == 'exit':
                         self.playaudio('thanks for using.')
                         break
                     else:
-                        self.playaudio(text)
+                        self.playaudio(responce)
             except speech_recognition.UnknownValueError:
                 self.recognizer = speech_recognition.Recognizer()
                 continue
